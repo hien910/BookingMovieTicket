@@ -1,0 +1,56 @@
+.bg-section {
+    background: url('https://media.istockphoto.com/id/915697084/vi/anh/kh%C3%A1i-ni%E1%BB%87m-ch%E1%BB%97-ng%E1%BB%93i-%C4%91%E1%BA%B7t-tr%C6%B0%E1%BB%9Bc.jpg?s=612x612&w=0&k=20&c=D-yvVdY1uvo9AXtKSX_Z2yLyxC7q48ZtRGsOyeXSJjM=');
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 550px;
+    position: relative;
+    padding-top: 80px;
+}
+
+
+.bg-section:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: 0.6;
+}
+
+.popular-movie-slider {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 35px;
+    padding: 10px 100px;
+    position: relative;
+}
+.poster{
+    width:300px;
+    height:400px;
+    object-fit:cover;
+    border-radius:10px;
+}
+.popular-movie-slider .popular-movie-slider-content .desc{
+    font-size:.90em;
+}
+
+.category{
+    display:flex;
+    gap:30px;
+    text-transform:capitalize;
+    margin:10px 0;
+}
+
+.category li:first-child {
+    margin-left: 0; /* Loại bỏ margin-left của phần tử đầu tiên */
+}
+.movie-info{
+    display:flex;
+    gap:30px;
+    margin:25px 0;
+}

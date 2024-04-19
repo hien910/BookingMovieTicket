@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/layout/layout :: layout(~{:: title}, ~{}, ~{:: #main-content}, ~{})}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Danh sách Blog</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        a {
+            text-decoration: none; /* Loại bỏ gạch chân */
+            color: #000; /* Đặt màu chữ mặc định, ví dụ là đen (#000) */
+        }
+    </style>
+</head>
+
+<body>
+
+<th:block id="main-content">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-10">
+                <h1>Blog</h1>
+            </div>
+            <div class="col-2">
+                <h2>Phim mới</h2>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-10 ">
+                <div class="d-flex" th:each="blog: ${pageData.getContent()}" style="padding-bottom: 55px;">
+
+                    <div class="col-md-2">
+                        <a th:href="@{/blog/{id}/{slug} (id=${blog.id}, slug=${blog.slug})}">
+                            <img th:src="${blog.thumbnail}" alt="img" class="img-fluid mb-4"></a>
+                    </div>
+                    <div class="col-md-10 " style="margin-left: 20px">
+                        <a th:href="@{/blog/{id}/{slug} (id=${blog.id}, slug=${blog.slug})}">
+                            <h2 class="mb-4" th:text="${blog.title}">Your Blog Title</h2></a>
+
+                        <p class="lead" th:text="${blog.description}">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget nisl at justo vestibulum
+                            condimentum.
+                            In hac habitasse platea dictumst. Fusce nec accumsan velit. Integer sed justo a nisi iaculis
+                            interdum.
+                            Nunc hendrerit, nisi non ullamcorper dapibus, felis felis varius risus, nec malesuada tortor
+                            eros ut
+                            purus.
+                        </p>
+                        <div>
+                            <a href="">xem thêm</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="d-flex justify-content-center mt-4" th:if="${pageData.getTotalPages() > 1}">
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+                            <a class="page-link" th:href="@{/list-blog (page=${currentPage - 1})}">Previous</a>
+                        </li>
+
+                        <li class="page-item"
+                            th:each="pageNumber : ${#numbers.sequence(1, pageData.getTotalPages())}"
+                            th:classappend="${pageNumber == currentPage ? 'active' : ''}">
+                            <a class="page-link" th:href="@{/list-blog (page=${pageNumber})}"
+                               th:text="${pageNumber}"></a>
+                        </li>
+
+                        <li class="page-item"
+                            th:classappend="${currentPage == pageData.getTotalPages() ? 'disabled' : ''}">
+                            <a class="page-link" th:href="@{/list-blog-blog (page=${currentPage + 1})}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+
+</th:block>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

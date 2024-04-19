@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #main-content}, ~{:: #js})}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Movie</title>
+    <th:block id="css">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+              crossorigin="anonymous">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!---font icon CDN----->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/homee.css">
+        <style>
+            .bg-section {
+                background: url('https://images.adsttc.com/media/images/6572/016e/96f8/0c2b/2f82/645e/slideshow/pantone-reveals-peach-fuzz-as-color-of-the-year-2024_12.jpg?1701970294');
+            }
+
+             #dateButton {
+                 display: flex;
+                 align-items: center
+             }
+        </style>
+    </th:block>
+
+</head>
+
+<body>
+<th:block id="main-content">
+    <section class="bg-section" style="position: relative;">
+        <div class="container d-flex " style="position: absolute; bottom: 0; left: 0;" >
+            <div class="popular-movie-slider">
+                <img src="https://homepage.momocdn.net/cinema/momo-upload-api-210813104719-637644484394328824.png"
+                     class="poster" style="width:150px;
+                                        height:150px;">
+                <div class="popular-movie-slider-content" style="line-height:25px;">
+                    <h2 class="movie-name" style="font-size:2.5em;">Beta Cinemas</h2>
+                    <div class="d-flex" style="gap:55px;">
+                        <p class="release" style="font-family: 'Arial', sans-serif;">Rạp chiếu phim Beta Cinemas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-4" >
+        <div class="container">
+            <div class="text-center" style="padding-bottom: 25px">
+                <h3 style="color: brown">Lịch chiếu phim Beta Cinemas</h3>
+            </div>
+            <div class="row rounded" style="background-color: gainsboro">
+                <div class="col-4">
+                    <div class="relative p-1 md:p-2 align-content-center">
+                        <label class="fs-4">Chọn rạp</label>
+                        <div class="form-group d-flex">
+                            <select id="" class="form-control fs-5">
+                                <option value="0">
+                                    Beta Thanh Xuân
+                                </option>
+                                <option value="1">
+                                    Beta Mỹ Đình
+                                </option>
+                                <option value="2">
+                                    Beta Giải Phóng
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-8" style="padding-top: 20px" >
+                    <div class="d-flex " style="background-color: gainsboro">
+                        <div>
+                            <img src="https://homepage.momocdn.net/cinema/momo-upload-api-210813104719-637644484394328824.png"
+                                 style="width: 60px;height: 60px">
+                        </div>
+                        <div class="align-content-center" style="padding-left: 20px">
+                            <div >
+                                <h5>Lịch chiếu phim Beta Thanh Xuân</h5>
+                                <p>Thanh Xuân, Hà Nội</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="date-button" style="gap:5px" id="dateButton" >
+                            <button class="btn btn-secondary" >
+                                <span class="fs-4" id="dateSpan">19/04</span>
+                                <span id="daySpan">thứ 6</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="py-4 d-flex " style="gap:20px">
+                        <img class="rounded" src="https://cinema.momocdn.net/img/34886228500869215-u9OfO59SHIuXOO3gPSzEJUTSJbP.jpg" alt="" style="height: 150px;width: 100px">
+
+                        <div>
+                            <h2 class="movie-name fs-4">Beta Cinemas</h2>
+                            <div style="gap:25px;">
+                                <p style="font-size: 15px">Khoa Học Viễn Tưởng, Phiêu Lưu, Hành Động</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-light border border-primary" >
+                                    <span class="fs-5 text-primary" >20:00</span> ~
+                                    <span class="text-primary">22:00</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="py-4 d-flex " style="gap:20px">
+                        <img class="rounded" src="https://cinema.momocdn.net/img/34886228500869215-u9OfO59SHIuXOO3gPSzEJUTSJbP.jpg" alt="" style="height: 150px;width: 100px">
+
+                        <div>
+                            <h2 class="movie-name fs-4">Beta Cinemas</h2>
+                            <div style="gap:25px;">
+                                <p style="font-size: 15px">Khoa Học Viễn Tưởng, Phiêu Lưu, Hành Động</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-light border border-primary" >
+                                    <span class="fs-5 text-primary" >20:00</span> ~
+                                    <span class="text-primary">22:00</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+</th:block>
+<th:block id="js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+            integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        // Lấy ngày hiện tại
+        var currentDate = new Date();
+
+        // Danh sách các ngày trong tuần
+        var daysOfWeek = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+
+        // Tạo một biến để lưu trữ chuỗi hiển thị ngày và thứ của 6 ngày tiếp theo
+        var nextDateStrings = '';
+
+        // Hiển thị 6 ngày tiếp theo
+        for (var i = 0; i <= 6; i++) {
+            // Tạo một ngày mới dựa trên ngày hiện tại cộng thêm số ngày i
+            var nextDate = new Date(currentDate);
+            nextDate.setDate(currentDate.getDate() + i);
+
+            // Format ngày thành dạng 'dd/mm'
+            var formattedDate = ('0' + nextDate.getDate()).slice(-2) + '/' + ('0' + (nextDate.getMonth() + 1)).slice(-2);
+
+            // Lấy thứ trong tuần
+            var dayOfWeek = daysOfWeek[nextDate.getDay()];
+
+            // Tạo chuỗi hiển thị ngày và thứ
+            var dateString = formattedDate + '<br>' + dayOfWeek;
+            var buttonClass = i === 0 ? 'btn btn-danger' : 'btn btn-secondary';
+
+            // Thêm chuỗi vào biến lưu trữ
+            nextDateStrings += '<div class="date-button"><button class="' + buttonClass + '" onclick="changeButtonColor(this)">' + dateString + '</button></div>';
+        }
+
+        // Hiển thị ngày và thứ của 6 ngày tiếp theo
+        document.getElementById('dateButton').innerHTML = nextDateStrings;
+        // Hàm để thay đổi màu của nút khi được nhấp vào
+
+        function changeButtonColor(button) {
+            // Lặp qua tất cả các nút và đặt lớp cho chúng dựa trên điều kiện
+            var buttons = document.getElementsByClassName('date-button');
+            for (var i = 0; i < buttons.length; i++) {
+                var currentButton = buttons[i].getElementsByTagName('button')[0];
+                if (currentButton === button) {
+                    currentButton.classList.remove('btn-secondary');
+                    currentButton.classList.add('btn-danger');
+                } else {
+                    currentButton.classList.remove('btn-danger');
+                    currentButton.classList.add('btn-secondary');
+                }
+            }
+        }
+    </script>
+
+</th:block>
+</body>
+</html>
