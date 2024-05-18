@@ -1,5 +1,6 @@
 package com.example.bookingmovieticket.entity;
 
+import com.example.bookingmovieticket.model.enums.StatusTicket;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,26 +15,26 @@ import java.util.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "cinemas")
-public class Cinema {
+@Table(name = "tickets")
+public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(nullable = false,unique = true)
-    String name;
+    Double totalPrice;
 
-    String location;
+    Date bookingTime;
 
-    @Column(columnDefinition = "TEXT")
-    String description;
-
-    String poster;
-
-    Date createdAt;
-    Date updatedAt;
+    @Enumerated(EnumType.STRING)
+    StatusTicket status;
 
     @ManyToOne
-    @JoinColumn(name = "system_cinema_id")
-    SystemCinema systemCinema;
+    @JoinColumn(name = "user_id")
+    User user;
+
+    @ManyToOne
+    @JoinColumn(name = "show_time_id")
+    ShowTime showTime;
+
+    Date updatedAt;
 }

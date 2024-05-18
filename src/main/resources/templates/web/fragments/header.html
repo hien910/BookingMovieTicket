@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <style>
-
 </style>
+
 <body>
 
 <header th:fragment="header">
@@ -29,64 +31,71 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarNavAltMarkup" style="justify-content:flex-end ">
-                <div class="navbar-nav">
+                <div class="navbar-nav gap-3" style="padding-right: 80px">
 
                     <a class="nav-link text-white fs-5" th:href="@{/lich-chieu}"><b>Lịch chiếu</b></a>
                     <a class="nav-link text-white fs-5" th:href="@{/rap-chieu}"><b>Rạp chiếu</b></a>
                     <a class="nav-link text-white fs-5" th:href="@{/phim-chieu}"><b>Phim chiếu</b></a>
                     <a class="nav-link text-white fs-5" th:href="@{/list-blog}"><b>Tin tức</b></a>
                 </div>
-                <div id="advc1-menu" class="search" style="padding-left: 20px">
-                    <form method="get" id="searchform" action="">
-                        <input type="text" placeholder=" Tìm kiếm phim..." style="width: 350px; height: 50px; border-radius: 25px;">
-                        <button class="search-button" type="submit" style="width: 50px; height: 50px; border-radius: 25px;">
-                            <i class="bi bi-search" style="font-size: large"></i>
-                        </button>
-                    </form>
-                </div>
+                <!--                <div id="advc1-menu" class="search" style="padding-left: 20px">-->
+                <!--                    <form method="get" id="searchform" action="">-->
+                <!--                        <input type="text" placeholder=" Tìm kiếm phim..." style="width: 350px; height: 50px; border-radius: 25px;">-->
+                <!--                        <button class="search-button" type="submit" style="width: 50px; height: 50px; border-radius: 25px;">-->
+                <!--                            <i class="bi bi-search" style="font-size: large"></i>-->
+                <!--                        </button>-->
+                <!--                    </form>-->
+                <!--                </div>-->
 
 
-                <div style="padding-left: 50px">
-                    <div>
-                        <th:block th:if="${session.currentUser == null}">
-                            <a class="text-white" href="/dang-nhap">Log in</a>
+                <div onclick="toggle()" class="dropdown-container d-flex">
+                    <a th:href="${#authorization.expression('isAuthenticated()') ? '/profile' : '/login'}">
+                        <i class="bi bi-person-circle" style="color: azure; font-size: 25px;"></i>
+                    </a>
+
+                    <div class="align-content-center" style="padding-left: 10px">
+                        <th:block sec:authorize="not isAuthenticated()">
+                            <a class="text-white" href="/login">Đăng nhập</a>
                         </th:block>
-                        <th:block th:if="${session.currentUser != null}">
-                            <p class="text-white mb-0 " th:text="${session.currentUser.name}"></p>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <a class="text-white mb-0" href="/profile"
+                               th:text="${#authentication.principal.getName()}"></a>
                         </th:block>
                     </div>
-                </div>
-                <div style="padding-left: 25px"><i class="bi bi-person-circle" style="color: azure ;font-size: 30px;"></i>
-                </div>
-                <div th:if="${session.currentUser != null}">
-                    <form id="logoutForm" method="post" action="/">
-                        <button type="submit"> Log out</button>
-                    </form>
+                    <div class="d-flex  align-items-center" sec:authorize="isAuthenticated()">
+                        <a href="" id="logoutBtn">
+                            <i class="bi bi-box-arrow-right text-white"
+                               style="padding-left: 25px; font-size: 25px;"></i>
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>
     </nav>
-    <script>
-        const formLogout = document.getElementById('logoutForm');
+    <script th:inline="javascript">
+        // const currentUser = [[${#authentication.principal}]];
+        // console.log(currentUser)
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("logoutBtn").addEventListener("click", function (event) {
+                event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ a (chuyển hướng)
+                console.log()
 
-        formLogout.addEventListener("submit", (e) => {
-            e.preventDefault();
-
-            // Send logout request to server using axios
-            axios.post('/api/auth/logout')
-                .then((response) => {
-                    console.log(response);  // In ra phản hồi từ máy chủ
-                    if (response.status === 200) {
-                        toastr.success("Đăng xuất thành công");
+                // Send logout request to server using axios
+                axios.post('/api/auth/logout')
+                    .then((response) => {
+                        console.log(response);
+                        alert("Đăng xuất thành công");
                         setTimeout(() => {
                             window.location.href = '/';  // Chuyển hướng về trang đăng nhập hoặc trang chính
                         }, 1500);
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                    console.log(error.response.data.message);
-                });
+
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        console.log(error.response.data.message);
+                    });
+            });
         });
     </script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

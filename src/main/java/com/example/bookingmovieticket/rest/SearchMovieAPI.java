@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/search-movie")
+@RequestMapping("/api/movie/search")
 @RequiredArgsConstructor
 public class SearchMovieAPI {
     private final MovieService movieService;
@@ -25,5 +25,4 @@ public class SearchMovieAPI {
     ) {
         return movieService.searchMovie(genre, year, country, keyword);
     }
-
 }

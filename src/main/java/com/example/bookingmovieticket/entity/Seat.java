@@ -1,10 +1,10 @@
 package com.example.bookingmovieticket.entity;
 
-import com.example.bookingmovieticket.model.enums.UserRole;
+import com.example.bookingmovieticket.model.enums.SeatType;
+import com.example.bookingmovieticket.model.enums.StatusSeat;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 
 import java.util.Date;
 
@@ -16,29 +16,27 @@ import java.util.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "seats")
+public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    String name;
+    Integer rowIndex;
+    Integer colIndex;
 
-    @Column(nullable = false, unique = true)
-    String email;
+    String code;
 
-    String password;
-    String phone;
-    String avatar;
-
-    Date birthday;
 
     @Enumerated(EnumType.STRING)
-    UserRole role;
+    SeatType seatType;
 
-    Boolean enabled;
+    @Enumerated(EnumType.STRING)
+    StatusSeat status;
 
-    Date createdAt;
-    Date updatedAt;
+    Double price;
 
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    Room room;
 }

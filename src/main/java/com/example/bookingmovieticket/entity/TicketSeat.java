@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Date;
-
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,26 +12,16 @@ import java.util.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "cinemas")
-public class Cinema {
+@Table(name = "ticket_seats")
+public class TicketSeat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(nullable = false,unique = true)
-    String name;
-
-    String location;
-
-    @Column(columnDefinition = "TEXT")
-    String description;
-
-    String poster;
-
-    Date createdAt;
-    Date updatedAt;
+    Double price;
 
     @ManyToOne
-    @JoinColumn(name = "system_cinema_id")
-    SystemCinema systemCinema;
+    @JoinColumn(name = "seat_id")
+    Seat seat;
+
 }

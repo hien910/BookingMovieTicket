@@ -41,39 +41,39 @@ let menu = document.querySelector('#menu');
 let menuBx = document.querySelector('#menu-box');
 let a = true;
 
-menu.addEventListener("click", () => {
+// menu.addEventListener("click", () => {
+//
+//     if (a == true) {
+//         menuBx.style.display = "block";
+//         menu.classList.replace("fa-bars", "fa-remove");
+//         a = false;
+//     } else {
+//         menuBx.style.display = "none";
+//         menu.classList.replace("fa-remove", "fa-bars");
+//         a = true;
+//     }
+//
+// })
 
-    if (a == true) {
-        menuBx.style.display = "block";
-        menu.classList.replace("fa-bars", "fa-remove");
-        a = false;
-    } else {
-        menuBx.style.display = "none";
-        menu.classList.replace("fa-remove", "fa-bars");
-        a = true;
-    }
 
-})
-
-
-$(".carousel").owlCarousel({
-    margin: 20,
-    loop: true,
-    autoplay: true,
-    autoplayTimeout: 5000,
-    autoplayHoverPause: true,
-    responsive: {
-        0: {
-            items: 3,
-            nav: true
-        },
-        600: {
-            items: 3,
-            nav: true
-        },
-        1000: {
-            items: 3,
-            nav: true
-        }
-    }
-});
+// $(".carousel").owlCarousel({
+//     margin: 20,
+//     loop: true,
+//     autoplay: true,
+//     autoplayTimeout: 5000,
+//     autoplayHoverPause: true,
+//     responsive: {
+//         0: {
+//             items: 3,
+//             nav: true
+//         },
+//         600: {
+//             items: 3,
+//             nav: true
+//         },
+//         1000: {
+//             items: 3,
+//             nav: true
+//         }
+//     }
+// });

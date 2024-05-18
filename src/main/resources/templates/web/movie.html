@@ -199,77 +199,77 @@
             <div>
                 <h2>Tìm kiếm phim chiếu</h2>
             </div>
-            <div class="d-flex">
 
-                <div class="relative p-1 md:p-2 align-content-center">
-                    <div class="form-group d-flex">
-                        <select id="genre" class="form-control fs-5" >
-                            <option value="null" >
-                                Thể loại
-                            </option>
-                            <option th:each="genre: ${genreList}" th:value="${genre.name}"  th:text="${genre.name}">
-                                Khoa hoc
-                            </option>
-                        </select>
+                <div class="d-flex">
+
+                    <div class="relative p-1 md:p-2 align-content-center">
+                        <div class="form-group d-flex">
+                            <select id="genre" class="form-control fs-5">
+                                <option value="" selected>Thể Loại</option>
+                                <option th:each="genre : ${genreList}"
+                                        th:value="${genre.name}"
+                                        th:text="${genre.name}">
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="relative p-1 md:p-2 align-content-center">
-                    <div class="form-group d-flex">
-                        <select id="country"  class="form-control fs-5">
-                            <option value="null">
-                                Quốc gia
-                            </option>
-                            <option th:each="country: ${countryList}" th:value="${country.name}"  th:text="${country.name}">
-                                Khoa học
-                            </option>
-                        </select>
+                    <div class="relative p-1 md:p-2 align-content-center">
+                        <div class="form-group d-flex">
+                            <select id="country" class="form-control fs-5">
+                                <option value="" selected>Quốc gia</option>
+                                <option th:each="country: ${countryList}"
+                                        th:value="${country.name}"
+                                        th:text="${country.name}">
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="relative p-1 md:p-2 align-content-center">
-                    <div class="form-group d-flex">
-                        <select id="year" class="form-control fs-5">
-                            <option value="null">
-                                Năm
-                            </option>
-                            <option value="2018">
-                                2018
-                            </option>
-                            <option value="2019">
-                                2019
-                            </option>
-                            <option value="2020">
-                                2020
-                            </option>
-                            <option value="2021">
-                                2021
-                            </option>
-                            <option value="2022">
-                                2022
-                            </option>
-                            <option value="2023">
-                                2023
-                            </option>
-                            <option value="2024">
-                                2024
-                            </option>
-                        </select>
+                    <div class="relative p-1 md:p-2 align-content-center">
+                        <div class="form-group d-flex">
+                            <select id="year" class="form-control fs-5">
+                                <option value="" selected>
+                                    Năm
+                                </option>
+                                <option value="2018">
+                                    2018
+                                </option>
+                                <option value="2019">
+                                    2019
+                                </option>
+                                <option value="2020">
+                                    2020
+                                </option>
+                                <option value="2021">
+                                    2021
+                                </option>
+                                <option value="2022">
+                                    2022
+                                </option>
+                                <option value="2023">
+                                    2023
+                                </option>
+                                <option value="2024">
+                                    2024
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div id="advc-menu" class="search" style="padding-left: 20px">
-                    <form method="get" id="searchform" action="/search">
-                        <input type="text" placeholder="Tìm kiếm phim..."
+                    <div id="advc-menu" class="search" style="padding-left: 20px">
+
+                        <input id="keyword" type="text" placeholder="Tìm kiếm phim..."
                                style="padding-left:10px;width: 350px; height: 50px; border-radius: 25px;border: 2px solid #cccccc;">
-                        <button class="search-button" type="submit"
+                        <button class="search-btn"
                                 style="width: 50px; height: 50px; border-radius: 25px; border: 2px solid #cccccc;">
                             <i class="bi bi-search" style="font-size: large"></i>
                         </button>
-                    </form>
+                    </div>
                 </div>
-            </div>
+
         </div>
         <div class="container">
-            <div class="row">
-                <div class="col-3" th:each="movie,iterStat : ${movieShowing}" th:if="${iterStat.count} &lt;= 8">
+            <div class="row renderMovies">
+                <div class="col-3 " th:each="movie,iterStat : ${movieShowing}"
+                     th:if="${iterStat.count} &lt;= 8">
                     <th:block th:replace="~{web/fragments/movie :: movie-item(${movie})}"></th:block>
                 </div>
             </div>
@@ -279,11 +279,78 @@
 
 </th:block>
 <th:block id="js">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
             integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+    <script th:inline="javascript">
+        const btnSearch = document.querySelector('.search-btn');
+        console.log(btnSearch);
+
+
+        btnSearch.addEventListener("click", function (event) {
+
+            // Lấy giá trị từ trường keyword
+            var keywordEl = document.getElementById("keyword").value;
+            var genreEl = document.getElementById("genre").value;
+            var countryEl = document.getElementById("country").value;
+            var yearEl = document.getElementById("year").value;
+
+            // Tạo URL cho request API
+            var url = "/api/movie/search";
+
+            function createParams(genre, country, year, keyword) {
+                const params = {};
+                if (genre) params.genre = genre;
+                if (country) params.country = country;
+                if (year) params.year = year;
+                if (keyword) params.keyword = keyword;
+                return params;
+            }
+
+            // Tạo đối tượng params
+            const params = createParams(genreEl, countryEl, yearEl, keywordEl);
+
+            // Gọi API sử dụng phương thức GET
+            axios.get(url, {params})
+                .then(response => {
+                    renderMovies(response.data);
+                    console.log('Response:', response.data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+        var renderMovieEL = document.querySelector('.renderMovies')
+        const renderMovies = (movieRender) => {
+            let html= "";
+            if(movieRender.length === 0){
+                html =`
+                <h3>Không có bộ phim phù hợp</h3>`;
+
+            }
+
+            movieRender.forEach(movie => {
+                html +=
+                    `<div class="col-3">
+                    <div class="movie-item">
+                    <a href="/phim/${movie.id}/${movie.slug}" class="movie-media">
+                        <div class="movie-poster rounded overflow-hidden">
+                            <img class="w-100 h-250" src="${movie.poster}" alt="When the Green Woods Laugh">
+                        </div>
+                        <div>
+                            <p class="mt-2">${movie.title}</p>
+                            <p>${movie.releaseYear}</p>
+                        </div>
+                        </a>
+                    </div>
+                    </div>
+                    `
+
+            });
+            renderMovieEL.innerHTML = html;
+        }
 
     </script>
 

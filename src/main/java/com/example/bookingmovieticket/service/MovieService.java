@@ -2,6 +2,7 @@ package com.example.bookingmovieticket.service;
 import com.example.bookingmovieticket.entity.Genre;
 import com.example.bookingmovieticket.entity.Movie;
 import com.example.bookingmovieticket.repository.MovieRepository;
+import com.example.bookingmovieticket.spec.MovieSpecifications;
 import com.github.javafaker.Faker;
 import com.github.slugify.Slugify;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -21,6 +23,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MovieService {
     private final MovieRepository movieRepository;
+
+
+    public  List<Movie> getMovies(Boolean status){
+        return movieRepository.findAllByStatus(status);
+    }
     public Page<Movie> getMovies(Boolean status, Integer page, Integer size) {
         PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by("publishedAt").descending()); // page trong jpa bắt đầu từ 0
         return movieRepository.findByStatus(status, pageRequest);
@@ -48,8 +55,11 @@ public class MovieService {
         return movieRepository.findByStatusAndShowDateStartAfter(status,currentDate);
     }
     public List<Movie> searchMovie(String genre,Integer year, String country,String keyword){
-        return movieRepository
-                .findMoviesByStatusAndGenres_NameIgnoreCaseAndReleaseYearAndCountry_NameAndTitleContainingIgnoreCase(true,
-                        genre,year,country, keyword);
+        Specification<Movie> spec = MovieSpecifications.findMovies(genre, country, year, keyword, true);
+        return movieRepository.findAll(spec);
+    }
+
+    public Movie getMovie(Integer id, String slug, boolean status) {
+        return movieRepository.findByIdAndSlugAndStatus(id, slug, status).orElse(null);
     }
 }

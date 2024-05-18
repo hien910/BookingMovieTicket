@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,6 +23,7 @@ import java.util.Optional;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
     Page<Movie> findByStatus(Boolean status, PageRequest pageRequest);
+    List<Movie> findAllByStatus(Boolean status);
     Page<Movie> findAllByStatusAndShowDateStartBeforeAndShowDateEndAfter(Boolean status, Date dateStart, Date dateEnd, PageRequest pageRequest);
     List<Movie> findAllByStatusAndShowDateStartBeforeAndShowDateEndAfter(Boolean status, Date dateStart, Date dateEnd  );
 //    Page<Movie> getMoviesShowing(Boolean status, PageRequest pageRequest){
@@ -40,6 +42,9 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             Integer year,
             String countryName,
             String keyword);
+
+    Optional<Movie> findByIdAndSlugAndStatus(Integer id, String slug, boolean status);
+    List<Movie> findAll(Specification<Movie> specification);
 //    List<Movie> findTop5ByRatingAndStatus(Boolean status);
 
 

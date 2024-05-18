@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #main-content}, ~{:: #js})}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="'Movie '+ ${movie.title}">Home cinema</title>
+    <th:block id="css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
+              integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+        <!---font icon CDN----->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
+        <link rel="stylesheet" href="/css/homee.css">
+    </th:block>
+
+</head>
+
+<body>
+<th:block id="main-content">
+    <section class="bg-section">
+        <div class="popular-movie-slider">
+            <img th:src="${movie.poster}"
+                 class="poster">
+            <div class="popular-movie-slider-content" style="line-height:25px;">
+
+                <h2 class="movie-name" style="font-size:2.5em;" th:text="${movie.title}">Interstellar</h2>
+                <div class="d-flex" style="gap:55px;">
+                    <p class="release" style="font-family: 'Arial', sans-serif;" th:text="${movie.country.name}">Hàn Quốc</p>
+                    <p class="release" style="font-family: 'Arial', sans-serif;" th:text="${movie.releaseYear}">2018</p>
+                </div>
+                <div class="d-flex" style="gap:20px;">
+                    <p class="release" style="font-family: 'Arial', sans-serif;" th:each="genre: ${movie.getGenres()}" th:text="'&#9830; ' + ${genre.name}"> Võ thuật</p>
+                </div>
+
+                <p class="desc" style="font-size:.90em;" th:text="${movie.description}">Interstellar is a 2014 epic science fiction film co-written,
+                    directed, and produced by
+                    Christopher Nolan. It stars Matthew McConaughey, Anne Hathaway, Jessica Chastain, Bill Irwin, Ellen
+                    Burstyn, Matt Damon, and Michael Caine. Set in a dystopian future where humanity is embroiled in a
+                    catastrophic blight and famine, the film follows a group of astronauts who travel through a wormhole
+                    near Saturn in search of a new home for humankind.</p>
+
+                <div class="movie-info">
+                    <i class="fa fa-clock-o"> &nbsp;&nbsp;&nbsp;<span style="font-family: 'Roboto', sans-serif;
+                                                                    color:#fff;
+                                                                    font-size:15px;" th:text="${movie.duration}+' min'">164 min.</span></i>
+                    <i class="fa fa-volume-up"> &nbsp;&nbsp;&nbsp;<span style="font-family: 'Roboto', sans-serif;
+                                                                        color:#fff;
+                                                                        font-size:15px;">Subtitles</span></i>
+                    <i class="fa fa-circle" style="color:#DB0000;font-size:.85em;"> &nbsp;&nbsp;&nbsp;<span style="font-family: 'Roboto', sans-serif;
+                                                    color:#fff;
+                                                    font-size:15px;">Imdb: <b th:text="${movie.rating}+ '/10'">9.1/10</b></span></i>
+                </div>
+
+                <div class="movie-btns d-flex justify-content-between">
+                    <button class="btn btn-danger">
+                        <i class="fa fa-play"></i> Watch trailer
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+        <!---slider--->
+
+    </section>
+
+    <section class="py-4" >
+        <div class="container">
+            <div class="text-center" style="padding-bottom: 25px">
+                <h3 style="color: brown" th:text="'Lịch chiếu phim '+ ${movie.title}">Lịch chiếu phim Beta Cinemas</h3>
+            </div>
+            <div class="row rounded">
+                <div class="col-4">
+                    <div class="relative p-1 md:p-2 align-content-center">
+                        <label class="fs-4">Chọn quận</label>
+                        <div class="form-group d-flex">
+                            <select id="" class="form-control fs-5">
+                                <option value="0">
+                                    Thanh Xuân
+                                </option>
+                                <option value="1">
+                                    Mỹ Đình
+                                </option>
+                                <option value="2">
+                                    Hoàng Mai
+                                </option>
+                                <option value="2">
+                                    Cầu Giấy
+                                </option>
+                                <option value="2">
+                                    Hoàn Kiếm
+                                </option>
+                                <option value="2">
+                                    Hà Đông
+                                </option>
+                                <option value="2">
+                                    Long Biên
+                                </option>
+                                <option value="2">
+                                    Đống Đa
+                                </option>
+                                <option value="2">
+                                    Tây Hồ
+                                </option>
+                                <option value="2">
+                                    Hai Bà Trưng
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="relative p-1 md:p-2 align-content-center">
+                        <label class="fs-4">Chọn rạp</label>
+                        <div class="form-group d-flex">
+                            <select  class="form-control fs-5">
+                                <option value="0">
+                                    Beta Thanh Xuân
+                                </option>
+                                <option value="1">
+                                    Beta Mỹ Đình
+                                </option>
+                                <option value="2">
+                                    Beta Giải Phóng
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-8 border border-3 rounded" style="padding-top: 20px" >
+                    <div class="d-flex ">
+                        <div>
+                            <img class="border border-1 rounded" src="https://homepage.momocdn.net/cinema/momo-upload-api-210813104719-637644484394328824.png"
+                                 style="width: 60px;height: 60px">
+                        </div>
+                        <div class="align-content-center" style="padding-left: 20px">
+                            <div >
+                                <h5>Lịch chiếu phim Beta Thanh Xuân</h5>
+                                <p>Thanh Xuân, Hà Nội</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex " style="padding-top: 10px">
+                        <div class="date-button d-flex" style="gap:5px" id="dateButton" >
+                            <button class="btn btn-secondary" >
+                                <span class="fs-4" id="dateSpan">19/04</span>
+                                <span id="daySpan">thứ 6</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="py-4 d-flex " style="gap:20px">
+                        <img class="rounded" src="https://cinema.momocdn.net/img/34886228500869215-u9OfO59SHIuXOO3gPSzEJUTSJbP.jpg" alt="" style="height: 150px;width: 100px">
+
+                        <div>
+                            <h2 class="movie-name fs-4">Beta Cinemas</h2>
+                            <div style="gap:25px;">
+                                <p style="font-size: 15px">Khoa Học Viễn Tưởng, Phiêu Lưu, Hành Động</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-light border border-primary" >
+                                    <span class="fs-5 text-primary" >20:00</span> ~
+                                    <span class="text-primary">22:00</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="py-4 d-flex " style="gap:20px">
+                        <img class="rounded" src="https://cinema.momocdn.net/img/34886228500869215-u9OfO59SHIuXOO3gPSzEJUTSJbP.jpg" alt="" style="height: 150px;width: 100px">
+
+                        <div>
+                            <h2 class="movie-name fs-4">Beta Cinemas</h2>
+                            <div style="gap:25px;">
+                                <p style="font-size: 15px">Khoa Học Viễn Tưởng, Phiêu Lưu, Hành Động</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-light border border-primary" >
+                                    <span class="fs-5 text-primary" >20:00</span> ~
+                                    <span class="text-primary">22:00</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+<!--    Review-->
+    <section class="py-4">
+        <div class="container">
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="mb-3">Bình luận</h3>
+                    <div th:class="${(#authentication.isAuthenticated() && #authentication.principal != 'anonymousUser') ? 'd-inline-block' : 'd-none'}">
+                        <button class="btn btn-primary" id="btn-open-modal-review">
+                            Viết đánh giá
+                        </button>
+                    </div>
+                </div>
+                <p sec:authorize="not isAuthenticated()">Vui lòng <a href="/login"
+                                                                      class="text-primary text-decoration-underline">đăng
+                    nhập</a> để viết bình luận</p>
+                <div class="review-list">
+                </div>
+                <div id="review-pagination" class="d-flex justify-content-center"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalReview" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modal-review-title">Viết đánh giá</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="text-center mb-2" th:text="${movie.title}"></h6>
+                    <div class="mb-4">
+                        <div class="rating-container d-flex justify-content-center">
+                        <span class="star" data-rating="1">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                            <span class="star" data-rating="2">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                            <span class="star" data-rating="3">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                            <span class="star" data-rating="4">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                            <span class="star" data-rating="5">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                            <span class="star" data-rating="6">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                            <span class="star" data-rating="7">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                            <span class="star" data-rating="8">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                            <span class="star" data-rating="9">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                            <span class="star" data-rating="10">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                        </div>
+                        <div class="text-center" id="rating-value"></div>
+                    </div>
+
+                    <form id="form-review">
+                        <div class="mb-3">
+                            <div class="form-group">
+                            <textarea class="form-control" id="review-content" rows="4"
+                                      placeholder="Chia sẻ cảm nghĩ của bạn về bộ phim ..." name="content"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary" id="btn-handle">Hoàn tất</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <section class="py-4" style="background-color: #cccccc">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-3">Tin tức</h3>
+                <a href="#" class="text-primary text-decoration-none" th:href="@{/list-blog}">Xem thêm</a>
+            </div>
+            <div class="row">
+                <div class="col-6" th:each="blog,iterStat: ${blogs}">
+                    <div class="blog-item bg-body-tertiary p-3 rounded mb-4 d-flex align-items-center">
+                        <div>
+                            <div class="movie-poster rounded overflow-hidden">
+                                <img class="w-100 h-100"
+                                     th:src="${blog.thumbnail}">
+                            </div>
+                        </div>
+                        <div style="padding-left: 20px">
+                            <a href="">
+                                <h5 th:text="${blog.title}">Top 15 Phim Cổ Trang Trung Quốc Hay Không Thể Bỏ Lỡ Năm
+                                    2023</h5>
+                                <p class="fst-italic" th:text="${#dates.format(blog.createdAt, 'yyyy-MM-dd')}">August
+                                    20, 2023</p>
+                                <p class="mb-0" th:text="${blog.description}">Năm 2023 phim hàn quốc đã có nhiều nội
+                                    dung được đổi mới và thu hút lượt xem
+                                    ...</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 ">
+                    <div class="blog-item bg-body-tertiary p-3 rounded mb-4 d-flex align-items-center">
+                        <div>
+                            <div class="movie-poster rounded overflow-hidden">
+                                <!--                            <img class="w-100 h-100"-->
+                                <!--                                 th:src="${movie.poster}" th:alt="${movie.title}">-->
+                                <img style="width: 120px; height: 150px"
+                                     src="https://chieuphimquocgia.com.vn/_next/image?url=https%3A%2F%2Fapi.chieuphimquocgia.com.vn%2FContent%2FImages%2F0017482_0.png&w=256&q=75">
+                            </div>
+                        </div>
+                        <div style="padding-left: 20px">
+                            <a href="">
+                                <h5>Top 15 Phim Cổ Trang Trung Quốc Hay Không Thể Bỏ Lỡ Năm 2023</h5>
+                                <p class="fst-italic">August 20, 2023</p>
+                                <p class="mb-0">Năm 2023 phim hàn quốc đã có nhiều nội dung được đổi mới và thu hút lượt
+                                    xem
+                                    ...</p>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-6 ">
+                    <div class="blog-item bg-body-tertiary p-3 rounded mb-4 d-flex align-items-center">
+                        <div>
+                            <div class="movie-poster rounded overflow-hidden">
+                                <!--                            <img class="w-100 h-100"-->
+                                <!--                                 th:src="${movie.poster}" th:alt="${movie.title}">-->
+                                <img class="w-80 h-80"
+                                     src="https://chieuphimquocgia.com.vn/_next/image?url=http%3A%2F%2Fapiv2.chieuphimquocgia.com.vn%2FContent%2FImages%2FThumbs%2F0017288.jpg&w=384&q=75">
+                            </div>
+                        </div>
+                        <div style="padding-left: 20px">
+                            <a href="">
+                                <h5>Top 15 Phim Cổ Trang Trung Quốc Hay Không Thể Bỏ Lỡ Năm 2023</h5>
+                                <p class="fst-italic">August 20, 2023</p>
+                                <p class="mb-0">Năm 2023 phim hàn quốc đã có nhiều nội dung được đổi mới và thu hút lượt
+                                    xem
+                                    ...</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</th:block>
+<th:block id="js">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+            integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+            integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.js"
+            integrity="sha512-GzbaI5EsNzdEUq6/2XLYpr1y9CUZRIVsUeWTAFgULtQa5jZ3Nug8i0nZKM6jp9NffBCZhymPPQFcF0DK+JkRpw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+            integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Lấy ngày hiện tại
+        var currentDate = new Date();
+
+        // Danh sách các ngày trong tuần
+        var daysOfWeek = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+
+        // Tạo một biến để lưu trữ chuỗi hiển thị ngày và thứ của 6 ngày tiếp theo
+        var nextDateStrings = '';
+
+        // Hiển thị 6 ngày tiếp theo
+        for (var i = 0; i <= 6; i++) {
+            // Tạo một ngày mới dựa trên ngày hiện tại cộng thêm số ngày i
+            var nextDate = new Date(currentDate);
+            nextDate.setDate(currentDate.getDate() + i);
+
+            // Format ngày thành dạng 'dd/mm'
+            var formattedDate = ('0' + nextDate.getDate()).slice(-2) + '/' + ('0' + (nextDate.getMonth() + 1)).slice(-2);
+
+            // Lấy thứ trong tuần
+            var dayOfWeek = daysOfWeek[nextDate.getDay()];
+
+            // Tạo chuỗi hiển thị ngày và thứ
+            var dateString = formattedDate + '<br>' + dayOfWeek;
+            var buttonClass = i === 0 ? 'btn btn-danger' : 'btn btn-secondary';
+
+            // Thêm chuỗi vào biến lưu trữ
+            nextDateStrings += '<div class="date-button"><button class="' + buttonClass + '" onclick="changeButtonColor(this)">' + dateString + '</button></div>';
+        }
+
+        // Hiển thị ngày và thứ của 6 ngày tiếp theo
+        document.getElementById('dateButton').innerHTML = nextDateStrings;
+        // Hàm để thay đổi màu của nút khi được nhấp vào
+
+        function changeButtonColor(button) {
+            // Lặp qua tất cả các nút và đặt lớp cho chúng dựa trên điều kiện
+            var buttons = document.getElementsByClassName('date-button');
+            for (var i = 0; i < buttons.length; i++) {
+                var currentButton = buttons[i].getElementsByTagName('button')[0];
+                if (currentButton === button) {
+                    currentButton.classList.remove('btn-secondary');
+                    currentButton.classList.add('btn-danger');
+                } else {
+                    currentButton.classList.remove('btn-danger');
+                    currentButton.classList.add('btn-secondary');
+                }
+            }
+        }
+    </script>
+    <script th:inline="javascript">
+        // const currentUser = [[${session.currentUser}]]
+        const currentUser = [[${#authentication.principal}]];
+        const isLogin = [[${#authentication.authenticated}]] && (currentUser != "anonymousUser") ;
+        console.log(isLogin)
+        console.log(currentUser);
+
+        const movie = [[${movie}]];
+        let reviewList = [[${reviews}]];
+    </script>
+    <script src="/js/movie-detail.js"></script>
+</th:block>
+</body>
+</html>

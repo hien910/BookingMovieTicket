@@ -1,10 +1,10 @@
 package com.example.bookingmovieticket.entity;
 
+import com.example.bookingmovieticket.model.enums.DayType;
+import com.example.bookingmovieticket.model.enums.SeatType;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Date;
 
 @ToString
 @AllArgsConstructor
@@ -14,24 +14,17 @@ import java.util.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "rooms")
-public class Room {
+@Table(name = "price")
+public class Price {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(nullable = false)
-    String name;
+    Double Price;
 
-    Integer numRow;
-    Integer numCol;
+    @Enumerated(EnumType.STRING)
+    SeatType seatType;
 
-    Boolean status;
-
-    Date createdAt;
-    Date updatedAt;
-
-    @ManyToOne
-    @JoinColumn(name = "cinema_id")
-    Cinema cinema;
+    @Enumerated(EnumType.STRING)
+    DayType dayType;
 }

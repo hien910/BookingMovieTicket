@@ -1,16 +1,16 @@
 package com.example.bookingmovieticket.controller;
 
 import com.example.bookingmovieticket.entity.Blog;
+import com.example.bookingmovieticket.model.response.VerifyAccountResponse;
 import com.example.bookingmovieticket.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.Date;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,18 +21,44 @@ public class WebController {
     private final ActorService actorService;
     private final DirectorService directorService;
     private final CountryService countryService;
+    private final ReviewService reviewService;
+    private final AuthService authService;
 
+    @GetMapping("/login")
+    public String getLogin() {
+        return "web/auth/login";
+    }
+
+    @GetMapping("/register")
+    public String getRegister() {
+        return "web/auth/register";
+    }
+    @GetMapping("/xac-thuc-tai-khoan")
+    public String getVerifyAccount(@RequestParam String token, Model model) {
+        VerifyAccountResponse data = authService.verifyAccount(token);
+        model.addAttribute("data", data);
+        return "web/auth/verify-account";
+    }
+    @GetMapping("/quen-mat-khau")
+    public String getForgotPassword(Model model, @RequestParam(required = false) String token) {
+        String data = authService.verifyPasswordRetrieval(token);
+        model.addAttribute("token" ,data) ;
+        return "web/auth/forgot-password";
+    }
+    @GetMapping("/profile")
+    public String getProfile(){
+        return "/web/profile";
+    }
     @GetMapping("/seat")
     public String getSeat(){
         return "/seat/seat";
     }
-    @GetMapping("/home")
+    @GetMapping( "/")
     public String getHome(Model model){
 
         model.addAttribute("movieUpcoming",movieService.getMoviesUpcomingHome(true));
         model.addAttribute("movieShowing",movieService.getMoviesShowingHome(true));
         model.addAttribute("blogs",blogService.findBlogByStatusOrderByPublishedAtDesc(true,1,4 ));
-
         return "web/home";
     }
     @GetMapping("/phim-chieu")
@@ -40,12 +66,21 @@ public class WebController {
         model.addAttribute("genreList",genreService.getAll());
         model.addAttribute("countryList",countryService.getAll());
 
-
-
         model.addAttribute("movieUpcoming",movieService.getMoviesUpcomingHome(true));
         model.addAttribute("movieShowing",movieService.getMoviesShowingHome(true));
         model.addAttribute("blogs",blogService.findBlogByStatusOrderByPublishedAtDesc(true,1,4 ));
+        System.out.println(movieService.getMoviesShowingHome(true));
         return "web/movie";
+    }
+    //     Chi tiết phim
+    @GetMapping("/phim/{id}/{slug}")
+    public String getChiTietPhim(@PathVariable Integer id, @PathVariable String slug, Model model) {
+
+        model.addAttribute("movie", movieService.getMovie(id, slug, true));
+        model.addAttribute("blogs",blogService.findBlogByStatusOrderByPublishedAtDesc(true,1,4 ));
+        model.addAttribute("reviews", reviewService.getReviewsByMovie(id));
+        model.addAttribute("authentication", SecurityContextHolder.getContext().getAuthentication());
+        return "web/detail-movie";
     }
     @GetMapping("/home1")
     public String getHome1(){

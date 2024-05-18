@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Date;
-
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,26 +12,21 @@ import java.util.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "cinemas")
-public class Cinema {
+@Table(name = "system_cinema")
+public class SystemCinema {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(nullable = false,unique = true)
     String name;
-
-    String location;
+    String poster;
 
     @Column(columnDefinition = "TEXT")
     String description;
 
-    String poster;
-
-    Date createdAt;
-    Date updatedAt;
-
-    @ManyToOne
-    @JoinColumn(name = "system_cinema_id")
-    SystemCinema systemCinema;
+    public SystemCinema(String name, String poster, String description) {
+        this.name = name;
+        this.poster = poster;
+        this.description = description;
+    }
 }

@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{web/layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #main-content}, ~{:: #js})}">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <th:block id="css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+              integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+              crossorigin="anonymous" referrerpolicy="no-referrer">
+    </th:block>
+</head>
+<body >
+<th:block id="main-content">
+    <section class="py-4" >
+        <div class="container">
+            <div class="menu-info d-flex justify-content-around">
+                <button id="personalInfoBtn" class="btn btn-danger rounded-pill fs-3 active"
+                        onclick="showContent('personalInfo', this)">Thông tin cá nhân
+                </button>
+                <button id="bookingHistoryBtn" class="btn btn-secondary rounded-pill fs-3"
+                        onclick="showContent('bookingHistory', this)">Lịch sử đặt vé
+                </button>
+                <button id="changePasswordBtn" class="btn btn-secondary rounded-pill fs-3"
+                        onclick="showContent('changePassword', this)">Đổi mật khẩu
+                </button>
+            </div>
+            <br>
+
+            <div id="personalInfoContent" style="display: block">
+                <div class="row">
+                    <div class="col-4 d-flex align-items-center justify-content-around">
+                        <div class="form-group" style="padding-bottom: 88px">
+                            <div class="text-center">
+                                <label class="fs-4">Ảnh đại diện</label>
+                            </div>
+                            <div class="thumbnail-preview-container mb-3">
+                                <img style="height: 200px; width: 200px"
+                                     th:src="${#authentication.principal.getAvatar()}"
+                                     src="https://homepage.momocdn.net/cinema/s256x384/momo-cdn-api-220615130933-637908953731225452.jpg"
+                                     alt="" id="avatar"/>
+                            </div>
+                            <button type="button" class="btn btn-info btn-flat" data-toggle="modal"
+                                    data-target="#modal-image">
+                                Chọn hình ảnh
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12 edit_information">
+                        <form id="update-form">
+
+                            <!--                    <h3 class="text-center">Thông tin cá nhân</h3>-->
+                            <div class="row">
+                                <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="profile_details_text">Full Name:</label>
+                                        <input type="text" name="full_name" class="form-control" id="full-name"
+                                               th:value="${#authentication.principal.getName()}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="profile_details_text">Email Address:</label>
+                                        <input type="email" name="email" class="form-control" id="email"
+                                               th:value="${#authentication.principal.getEmail()}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="profile_details_text">Phone Number:</label>
+                                        <input type="tel" name="phone" class="form-control" id="phone"
+                                               th:value="${#authentication.principal.getPhone()}" required
+                                               pattern=[0-9]{10}>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="profile_details_text">Date Of Birth:</label>
+                                        <input type="date" name="birthday" class="form-control" id="birthday"
+                                               th:value="${#dates.format(#authentication.principal.getBirthDay(), 'yyyy-MM-dd')}" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row d-flex justify-content-end">
+                                <div class="col text-right">
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-success btn-update" value="Submit">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="bookingHistoryContent" style="display: none;">
+                <!-- Nội dung cho lịch sử đặt vé -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover" id="ticket-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Ngày giao dịch</th>
+                                        <th>Tên phim</th>
+                                        <th>Số vé</th>
+                                        <th>Số tiền</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            09/01/2024
+                                        </td>
+                                        <td>X-Men</td>
+                                        <td>Công khai</td>
+                                        <td>100.000.000 VND</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="changePasswordContent" style="display: none;">
+                <div class="row">
+                    <!-- Nội dung cho đổi mật khẩu -->
+                    <h2>Nội dung cho đổi mật khẩu</h2>
+                    <div class="col-lg-12 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12 edit_information">
+                        <form id="form-change-password" >
+                            <div class="row">
+                                <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                    <label for="oldPassword" class="form-label">Mật khẩu cũ:</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="oldPassword">
+                                        <button type="button" class="btn btn-outline-secondary" id="showOldPassword">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label for="newPassword" class="form-label">Mật khẩu mới:</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="newPassword">
+                                        <button type="button" class="btn btn-outline-secondary" id="showNewPassword">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label for="confirmPassword" class="form-label">Nhập lại mật khẩu:</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="confirmPassword">
+                                        <button type="button" class="btn btn-outline-secondary" id="showConfirmPassword">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row ">
+                                <div class="col text-right">
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-success" value="Submit">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</th:block>
+
+<th:block id="js">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script th:inline="javascript">
+        const currentUser = [[${#authentication.principal}]];
+        console.log(currentUser);
+
+        const newPassword = document.getElementById("newPassword");
+        const oldPassword = document.getElementById("oldPassword");
+        const confirmPassword = document.getElementById("confirmPassword");
+        // Function to check if passwords match
+        function validatePassword() {
+            if (newPassword.value !== confirmPassword.value) {
+                alert("Mật khẩu mới và xác nhận mật khẩu không khớp!");
+                return false;
+            }
+            return true;
+        }
+
+        // Add event listener to form submission
+        document.getElementById("form-change-password").addEventListener("submit", function(event) {
+            if (!validatePassword()) {
+                event.preventDefault(); // Prevent form submission if passwords don't match
+            }
+        });
+        function showContent(content, button) {
+            // Lấy tất cả các nút trong dãy
+            // const buttons = document.querySelectorAll('.btn');
+            const buttons = document.querySelectorAll('.menu-info .btn');
+
+            // Duyệt qua từng nút để thay đổi lớp
+            buttons.forEach(function (btn) {
+                // Nếu nút là nút được nhấn, thì thêm lớp 'btn-danger' và loại bỏ 'btn-secondary'
+                if (btn === button) {
+                    btn.classList.remove('btn-secondary');
+                    btn.classList.add('btn-danger');
+                } else { // Nếu không phải nút được nhấn, thì ngược lại
+                    btn.classList.remove('btn-danger');
+                    btn.classList.add('btn-secondary');
+                }
+            });
+
+            // Ẩn tất cả các nội dung
+            document.querySelectorAll('[id$="Content"]').forEach(function (contentElement) {
+                contentElement.style.display = 'none';
+            });
+
+            // Hiển thị nội dung tương ứng với nút bấm được chọn
+            document.getElementById(content + 'Content').style.display = 'block';
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let confirmPasswordInput = document.getElementById("confirmPassword");
+
+            // Lấy các thẻ button để thêm sự kiện click
+            let showOldPasswordBtn = document.getElementById("showOldPassword");
+            let showNewPasswordBtn = document.getElementById("showNewPassword");
+            let showConfirmPasswordBtn = document.getElementById("showConfirmPassword");
+
+            // Thêm sự kiện click cho nút hiển thị/ẩn password
+            showNewPasswordBtn.addEventListener("click", function () {
+                togglePasswordVisibility(newPassword);
+            });
+            showOldPasswordBtn.addEventListener("click", function () {
+                togglePasswordVisibility(oldPassword);
+            });
+
+            // Thêm sự kiện click cho nút hiển thị/ẩn confirmPassword
+            showConfirmPasswordBtn.addEventListener("click", function () {
+                togglePasswordVisibility(confirmPassword);
+            });
+
+            // Hàm ẩn/hiện mật khẩu
+            function togglePasswordVisibility(inputElement) {
+                if (inputElement.type === "password") {
+                    inputElement.type = "text";
+                } else {
+                    inputElement.type = "password";
+                }
+            }
+        });
+
+
+        const formChangePass = document.getElementById('form-change-password');
+        formChangePass.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const data = {
+                newPassword: newPassword.value,
+                oldPassword: oldPassword.value
+            }
+            console.log(currentUser.id)
+            console.log()
+
+            // Send data to server using axios
+            axios.put('/api/auth/change-password/'+ currentUser.id, data)
+                .then((response) => {
+                    console.log(response);  // In ra phản hồi từ máy chủ
+                    alert("Đổi mật khẩu thành công!")
+                        setTimeout(() => {
+                            window.location.href = '/';
+                        }, 1500);
+                })
+                .catch((error) => {
+                    alert("Thất bại! Đã có lỗi xảy ra!")
+                    console.log(error);
+                    console.log(error.response.data.message);
+                });
+        });
+        const formUpdateProfile = document.getElementById("update-form");
+
+        formUpdateProfile.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const nameEl = document.getElementById("full-name");
+            const emailEl = document.getElementById("email");
+            const phoneEl = document.getElementById("phone");
+            const birthdayEl = document.getElementById("birthday");
+            const avatarEl = document.getElementById("avatar");
+            const data = {
+                name: nameEl.value,
+                phone: phoneEl.value,
+                email: emailEl.value,
+                birthday: new Date(birthdayEl.value),
+                avatar: avatarEl.getAttribute("src")
+            }
+            console.log(data)
+            debugger
+
+            // Sử dụng axios để gửi dữ liệu lên server
+            axios.put(`/api/auth/update-user/`+currentUser.id, data)
+                .then(function (response) {
+                    console.log(response)
+                    alert("Cập nhật thông tin thành công!")
+                    // setTimeout(function () {
+                    //     window.location.href = '/profile'
+                    // }, 1500)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                    alert("Có lỗi xảy ra!")
+                })
+        });
+
+
+
+    </script>
+</th:block>
+
+</body>
+</html>

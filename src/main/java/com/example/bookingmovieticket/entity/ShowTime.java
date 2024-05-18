@@ -14,26 +14,23 @@ import java.util.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "cinemas")
-public class Cinema {
+@Table(name = "showtimes")
+public class ShowTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(nullable = false,unique = true)
-    String name;
-
-    String location;
-
-    @Column(columnDefinition = "TEXT")
-    String description;
-
-    String poster;
-
+    Date startTime;
+    Date endTime;
     Date createdAt;
     Date updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "system_cinema_id")
-    SystemCinema systemCinema;
+    @JoinColumn(name = "room_id")
+    Room room;
+
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    Movie movie;
 }
+
